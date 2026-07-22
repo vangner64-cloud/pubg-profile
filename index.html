@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUBG Profile</title>
+  <style>
+    :root {
+      --bg: #0b0f16;
+      --card: rgba(255,255,255,0.06);
+      --card-2: rgba(255,255,255,0.1);
+      --text: #f3f6ff;
+      --muted: #a6b0c3;
+      --accent: #7c5cff;
+      --accent2: #19d3ff;
+      --good: #4ade80;
+      --warning: #fbbf24;
+      --shadow: 0 20px 60px rgba(0,0,0,0.45);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: radial-gradient(circle at top, #192033 0%, var(--bg) 45%, #05070b 100%); color: var(--text); font-family: Inter, Arial, sans-serif; }
+    body { min-height: 100vh; overflow-x: hidden; }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero {
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(145deg, rgba(124,92,255,0.18), rgba(25,211,255,0.08), rgba(255,255,255,0.03));
+      border-radius: 32px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: floatIn 0.8s ease-out both;
+    }
+
+    .glow {
+      position: absolute;
+      inset: auto -80px -80px auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(25,211,255,0.35), transparent 70%);
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: .2px;
+      backdrop-filter: blur(14px);
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(74,222,128,0.12);
+      color: #b7f7cc;
+      border: 1px solid rgba(74,222,128,0.2);
+      font-size: 14px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--good);
+      box-shadow: 0 0 16px rgba(74,222,128,0.9);
+    }
+
+    .profile {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #1d2740, #0f1320);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar::before {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background: conic-gradient(from 0deg, transparent, rgba(124,92,255,0.8), rgba(25,211,255,0.8), transparent);
+      animation: spin 5s linear infinite;
+      opacity: .25;
+    }
+
+    .avatar span {
+      position: relative;
+      z-index: 1;
+      font-size: 52px;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 8px 30px rgba(0,0,0,.35);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 6vw, 54px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 56ch;
+    }
+
+    .grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      transform: translateY(0);
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.14);
+      background: var(--card-2);
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .value {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .value small {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .stats {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 16px;
+    }
+
+    .wide {
+      padding: 22px;
+    }
+
+    .progress {
+      margin-top: 16px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+
+    .bar {
+      width: 78%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 24px rgba(124,92,255,0.5);
+    }
+
+    .btns {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), #5a7dff);
+      box-shadow: 0 12px 30px rgba(124,92,255,0.25);
+      transition: transform .2s ease, opacity .2s ease;
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,0.08);
+      box-shadow: none;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); opacity: .9; }
+
+    .gallery {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .shot {
+      aspect-ratio: 16 / 10;
+      border-radius: 18px;
+      background:
+        linear-gradient(135deg, rgba(124,92,255,0.22), rgba(25,211,255,0.12)),
+        radial-gradient(circle at top, rgba(255,255,255,0.12), transparent 60%),
+        linear-gradient(145deg, #1b2234, #0e1320);
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .shot::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 14px;
+      border: 1px dashed rgba(255,255,255,0.14);
+    }
+
+    .footer {
+      margin: 20px 0 6px;
+      text-align: center;
+      color: rgba(166,176,195,0.8);
+      font-size: 13px;
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 760px) {
+      .profile { grid-template-columns: 1fr; text-align: center; }
+      .avatar { margin: 0 auto; }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .stats { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: 1fr; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="glow"></div>
+
+      <div class="topbar">
+        <div class="badge">PUBG Profile / v1.0</div>
+        <div class="status"><span class="dot"></span> Online</div>
+      </div>
+
+      <div class="profile">
+        <div class="avatar" aria-label="Avatar">
+          <span>V</span>
+        </div>
+
+        <div>
+          <h1>Vagner64</h1>
+          <p class="subtitle">
+            Игровой профиль PUBG с красивым дизайном, статистикой, достижениями и кнопкой для быстрого обмена ссылкой.
+          </p>
+
+          <div class="btns">
+            <button class="btn" onclick="shareProfile()">Поделиться профилем</button>
+            <button class="btn secondary" onclick="scrollToStats()">Смотреть статистику</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid" id="stats">
+        <div class="card">
+          <div class="label">PUBG ID</div>
+          <div class="value">6428 1934</div>
+        </div>
+        <div class="card">
+          <div class="label">Сервер</div>
+          <div class="value">EU <small>Europe</small></div>
+        </div>
+        <div class="card">
+          <div class="label">K/D</div>
+          <div class="value">4.8</div>
+        </div>
+        <div class="card">
+          <div class="label">Победы</div>
+          <div class="value">127</div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="card wide">
+          <div class="label">Уровень игрока</div>
+          <div class="value">76 <small>/ 100</small></div>
+          <div class="progress"><div class="bar"></div></div>
+          <p class="subtitle" style="margin-top:12px;">
+            Прогресс до следующего уровня: 78%
+          </p>
+        </div>
+
+        <div class="card wide">
+          <div class="label">Лучшее оружие</div>
+          <div class="value">M416</div>
+          <p class="subtitle" style="margin-top:12px;">
+            Самое стабильное оружие в матчах, быстрый контроль отдачи.
+          </p>
+        </div>
+      </div>
+
+      <div class="card wide" style="margin-top:16px;">
+        <div class="label">Достижения</div>
+        <div class="gallery">
+          <div class="shot"></div>
+          <div class="shot"></div>
+          <div class="shot"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">Made for PUBG profile • GitHub Pages / Firebase Hosting ready</div>
+  </div>
+
+  <script>
+    function shareProfile() {
+      const text = "Мой PUBG профиль: Vagner64";
+      if (navigator.share) {
+        navigator.share({ title: "PUBG Profile", text, url: location.href });
+      } else {
+        navigator.clipboard.writeText(text);
+        alert("Текст профиля скопирован");
+      }
+    }
+
+    function scrollToStats() {
+      document.getElementById("stats").scrollIntoView({ behavior: "smooth" });
+    }
+  </script>
+</body>
+  </html>
