@@ -1,1 +1,219 @@
+/* ===========================
+   PUBG PROFILE - STYLE.CSS
+   Часть 1
+=========================== */
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+}
+
+body{
+    background:#0f1117;
+    color:#ffffff;
+    overflow-x:hidden;
+}
+
+/* Главный экран */
+
+.hero{
+    height:100vh;
+    background:url("../images/background.jpg") center center/cover no-repeat;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.65);
+}
+
+.overlay{
+    position:relative;
+    text-align:center;
+    max-width:900px;
+    padding:20px;
+    z-index:2;
+}
+
+.overlay h1{
+    font-size:52px;
+    color:#ffd54f;
+    margin-bottom:25px;
+    text-shadow:0 0 15px rgba(255,213,79,.7);
+}
+
+.overlay p{
+    font-size:20px;
+    line-height:1.8;
+    color:#dddddd;
+    margin-bottom:40px;
+}
+
+/* Шапка */
+
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(12px);
+    z-index:1000;
+}
+
+.logo{
+    color:#ffd54f;
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:2px;
+}
+
+nav{
+    display:flex;
+    gap:35px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#ffd54f;
+}
+
+.buttons{
+    display:flex;
+    gap:15px;
+}
+
+/* Кнопки */
+
+button{
+    border:none;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.login,
+.register,
+.start{
+    padding:14px 28px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:bold;
+}
+
+.login{
+    background:transparent;
+    color:white;
+    border:2px solid #ffd54f;
+}
+
+.login:hover{
+    background:#ffd54f;
+    color:black;
+}
+
+.register{
+    background:#ffd54f;
+    color:black;
+}
+
+.register:hover{
+    transform:scale(1.08);
+}
+
+.start{
+    background:#ffb300;
+    color:black;
+    font-size:18px;
+    padding:18px 45px;
+}
+
+.start:hover{
+    transform:translateY(-4px);
+    box-shadow:0 0 25px #ffb300;
+}
+
+/* Карточки */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+    padding:100px 40px;
+    background:#171a22;
+}
+
+.card{
+    background:#222733;
+    border-radius:18px;
+    padding:35px;
+    text-align:center;
+    transition:.4s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 0 25px rgba(255,213,79,.3);
+}
+
+.card h2{
+    color:#ffd54f;
+    margin-bottom:20px;
+}
+
+.card p{
+    color:#cccccc;
+    line-height:1.8;
+}
+
+/* Подвал */
+
+footer{
+    padding:35px;
+    text-align:center;
+    background:#111;
+    color:#888;
+}
+
+/* Адаптация */
+
+@media(max-width:768px){
+
+header{
+    flex-direction:column;
+    gap:20px;
+    padding:20px;
+}
+
+nav{
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.overlay h1{
+    font-size:34px;
+}
+
+.overlay p{
+    font-size:16px;
+}
+
+.start{
+    width:100%;
+}
+}
